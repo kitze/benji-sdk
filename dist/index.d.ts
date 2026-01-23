@@ -1,5 +1,5 @@
-export * from "./client";
-import { client } from "./client/client.gen";
+export * from "./client/index.js";
+import { client } from "./client/client.gen.js";
 export interface BenjiConfig {
     /** Your Benji API key */
     apiKey: string;

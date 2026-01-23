@@ -1,7 +1,7 @@
 // Re-export everything from generated client
-export * from "./client";
+export * from "./client/index.js";
 // Import client config
-import { client } from "./client/client.gen";
+import { client } from "./client/client.gen.js";
 /**
  * Configure the Benji SDK with your API key
  *
