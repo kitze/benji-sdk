@@ -1,18 +1,44 @@
-import { readdir, readFile, writeFile } from 'fs/promises';
-import { join } from 'path';
+import { readdir, readFile, writeFile, stat } from 'fs/promises';
+import { join, dirname, resolve } from 'path';
+
+async function isDirectory(basePath, importPath) {
+  // Resolve the import relative to the file's directory
+  const resolvedPath = resolve(dirname(basePath), importPath);
+  try {
+    const stats = await stat(resolvedPath);
+    return stats.isDirectory();
+  } catch {
+    return false;
+  }
+}
 
 async function fixImportsInFile(filePath) {
   let content = await readFile(filePath, 'utf-8');
 
-  // Fix relative imports that don't have .js extension
-  // Match: from './something' or from '../something' but NOT from './something.js' or external packages
-  const importRegex = /(from\s+['"])(\.\.?\/[^'"]+)(?<!\.js)(['"])/g;
+  // Find all relative imports that don't have .js extension
+  const importRegex = /(from\s+['"])(\.\.?\/[^'"]+)(['"])/g;
+  const matches = [...content.matchAll(importRegex)];
 
-  const newContent = content.replace(importRegex, (match, prefix, path, suffix) => {
-    // Don't add .js if it already ends with .js
-    if (path.endsWith('.js')) return match;
-    return `${prefix}${path}.js${suffix}`;
-  });
+  let newContent = content;
+
+  for (const match of matches) {
+    const [fullMatch, prefix, importPath, suffix] = match;
+
+    // Skip if already has .js extension
+    if (importPath.endsWith('.js')) continue;
+
+    // Check if it's a directory import
+    const isDir = await isDirectory(filePath, importPath);
+
+    let fixedPath;
+    if (isDir) {
+      fixedPath = `${importPath}/index.js`;
+    } else {
+      fixedPath = `${importPath}.js`;
+    }
+
+    newContent = newContent.replace(fullMatch, `${prefix}${fixedPath}${suffix}`);
+  }
 
   if (content !== newContent) {
     await writeFile(filePath, newContent);

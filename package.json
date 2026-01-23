@@ -17,7 +17,8 @@
   ],
   "scripts": {
     "generate": "openapi-ts",
-    "build": "pnpm generate && tsc",
+    "fix-imports": "node fix-imports.mjs",
+    "build": "pnpm generate && pnpm fix-imports && tsc",
     "prepublishOnly": "pnpm build"
   },
   "keywords": [
