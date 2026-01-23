@@ -1,0 +1,49 @@
+{
+  "name": "benji-sdk",
+  "version": "0.1.0",
+  "description": "Official TypeScript SDK for the Benji API - Your personal life operating system",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "generate": "openapi-ts",
+    "build": "pnpm generate && tsc",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": [
+    "benji",
+    "api",
+    "sdk",
+    "typescript",
+    "productivity",
+    "habits",
+    "todos",
+    "journal",
+    "health",
+    "wellness"
+  ],
+  "author": "Kitze",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitze/benji-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kitze/benji-sdk/issues"
+  },
+  "homepage": "https://github.com/kitze/benji-sdk#readme",
+  "devDependencies": {
+    "@hey-api/openapi-ts": "0.90.0",
+    "typescript": "^5.5.0"
+  }
+}

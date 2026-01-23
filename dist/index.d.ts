@@ -1,0 +1,27 @@
+export * from "./client";
+import { client } from "./client/client.gen";
+export interface BenjiConfig {
+    /** Your Benji API key */
+    apiKey: string;
+    /** Optional custom base URL (defaults to https://app.benji.so/api/rest) */
+    baseUrl?: string;
+}
+/**
+ * Configure the Benji SDK with your API key
+ *
+ * @example
+ * ```ts
+ * import { configure, Todos, Habits } from "benji-sdk";
+ *
+ * configure({ apiKey: "your-api-key" });
+ *
+ * // List today's todos
+ * const { data } = await Todos.todosList({ body: { screen: "today" } });
+ *
+ * // Create a habit
+ * await Habits.habitsCreate({ body: { name: "Drink water", emoji: "💧" } });
+ * ```
+ */
+export declare function configure(options: BenjiConfig): void;
+export { client };
+//# sourceMappingURL=index.d.ts.map
