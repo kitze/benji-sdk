@@ -18,19 +18,19 @@ import { registerGoalsCommand } from "./goals.js";
 import { registerContactsCommand } from "./contacts.js";
 import { registerFoodCommand } from "./food.js";
 import { registerBloodPressureCommand } from "./blood-pressure.js";
+import { registerApiCommand } from "./api.js";
+import { registerGeneratedCommands } from "./generated.js";
 
 /**
- * Recursively add --json and --compact to every leaf command so Commander
+ * Recursively add --json and --compact to every command so Commander
  * recognises them regardless of where they appear on the command line.
  */
-function addGlobalOptionsToLeaves(cmd: Command): void {
-  if (cmd.commands.length === 0) {
-    cmd.option("--json", "Output results as JSON");
-    cmd.option("--compact", "Minimal output (IDs only)");
-  } else {
-    for (const sub of cmd.commands) {
-      addGlobalOptionsToLeaves(sub);
-    }
+function addGlobalOptions(cmd: Command): void {
+  cmd.option("--json", "Output results as JSON");
+  cmd.option("--compact", "Minimal output (IDs only)");
+
+  for (const sub of cmd.commands) {
+    addGlobalOptions(sub);
   }
 }
 
@@ -54,6 +54,8 @@ export function registerCommands(program: Command): void {
   registerContactsCommand(program);
   registerFoodCommand(program);
   registerBloodPressureCommand(program);
+  registerApiCommand(program);
+  registerGeneratedCommands(program);
 
-  addGlobalOptionsToLeaves(program);
+  addGlobalOptions(program);
 }

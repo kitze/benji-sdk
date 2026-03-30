@@ -19,6 +19,8 @@ import { registerGoalTools } from "./tools/goals.js";
 import { registerContactTools } from "./tools/contacts.js";
 import { registerFoodTools } from "./tools/food.js";
 import { registerBloodPressureTools } from "./tools/blood-pressure.js";
+import { registerApiTools } from "./tools/api.js";
+import { registerGeneratedTools } from "./tools/generated.js";
 
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json") as { version: string };
@@ -60,6 +62,8 @@ export function createServer(): McpServer {
   registerContactTools(mcpServer);
   registerFoodTools(mcpServer);
   registerBloodPressureTools(mcpServer);
+  registerApiTools(mcpServer);
+  registerGeneratedTools(mcpServer);
 
   return mcpServer;
 }

@@ -17,8 +17,9 @@
   ],
   "scripts": {
     "generate": "openapi-ts",
+    "generate-metadata": "node generate-method-metadata.mjs",
     "fix-imports": "node fix-imports.mjs",
-    "build": "pnpm generate && pnpm fix-imports && tsc",
+    "build": "pnpm generate && pnpm generate-metadata && pnpm fix-imports && tsc",
     "clean": "rm -rf dist",
     "prepublishOnly": "pnpm build"
   },

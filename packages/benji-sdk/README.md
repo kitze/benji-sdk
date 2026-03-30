@@ -1,183 +1,83 @@
-# Benji SDK
+# benji-sdk
 
-Official TypeScript SDK for the [Benji](https://benji.so) API - Your personal life operating system.
+Official TypeScript SDK for the [Benji](https://benji.so) API.
 
-## Installation
+The package is generated from the Benji OpenAPI spec and is designed to move with the API, so this README stays intentionally lightweight. Use TypeScript autocomplete or `listSdkMethods()` to explore the current surface area instead of relying on a hand-maintained endpoint list.
+
+## Install
 
 ```bash
-npm install benji-sdk
-# or
 pnpm add benji-sdk
-# or
-yarn add benji-sdk
 ```
 
-## Quick Start
+## Configure
 
-```typescript
-import { configure, Todos, Habits } from "benji-sdk";
+```ts
+import { configure } from "benji-sdk";
 
-// Configure with your API key
-configure({ apiKey: "your-api-key" });
-
-// List today's todos
-const { data } = await Todos.todosList({
-  body: { screen: "today" }
+configure({
+  apiKey: "your-api-key",
 });
-
-console.log(data.todos);
 ```
 
-## Getting Your API Key
+`baseUrl` is optional. Only pass it when targeting a custom Benji environment.
 
-1. Log in to [Benji](https://app.benji.so)
-2. Go to Settings > API
-3. Generate a new API key
+## Typed Usage
 
-## Available Modules
-
-| Module | Description |
-|--------|-------------|
-| `Todos` | Create, list, update, and manage todos |
-| `Habits` | Track daily habits |
-| `Mood` | Log and retrieve mood entries |
-| `Journal` | Create and manage journal entries |
-| `Hydration` | Track water intake |
-| `Fasting` | Manage fasting windows |
-| `Workouts` | Log workouts and exercises |
-| `Projects` | Organize todos into projects |
-| `Tags` | Categorize items with tags |
-| `Trips` | Plan and track travel |
-| `PainEvents` | Log pain events for health tracking |
-
-## Examples
-
-### Todos
-
-```typescript
+```ts
 import { configure, Todos } from "benji-sdk";
 
 configure({ apiKey: "your-api-key" });
 
-// Create a todo
-await Todos.todosCreate({
-  body: {
-    title: "Buy groceries",
-    priority: "high",
-    dueDate: "2024-12-25"
-  }
-});
-
-// List todos for today
-const { data } = await Todos.todosList({
-  body: { screen: "today" }
-});
-
-// Mark as complete
-await Todos.todosToggle({
-  body: { id: "todo-id" }
-});
-
-// Delete a todo
-await Todos.todosDelete({
-  body: { id: "todo-id" }
+const todos = await Todos.todosList({
+  body: { screen: "today" },
 });
 ```
 
-### Habits
+## Dynamic Usage
 
-```typescript
-import { configure, Habits } from "benji-sdk";
+This is useful when the API changes quickly and you want a stable way to reach newly generated methods.
 
-configure({ apiKey: "your-api-key" });
+```ts
+import { callSdkMethod, listSdkMethods } from "benji-sdk";
 
-// Create a habit
-await Habits.habitsCreate({
-  body: {
-    name: "Drink 8 glasses of water",
-    emoji: "💧"
-  }
-});
+const methods = listSdkMethods({ search: "trip" });
+const trips = await callSdkMethod("Trips.tripsList");
+```
 
-// List all habits
-const { data } = await Habits.habitsList();
+`callSdkMethod()` accepts the same options object shape as the generated client, for example:
 
-// Toggle habit completion for today
-await Habits.habitsToggle({
-  body: { id: "habit-id" }
+```ts
+await callSdkMethod("Todos.todosList", {
+  body: { screen: "today" },
 });
 ```
 
-### Mood Tracking
+## Environment Helper
 
-```typescript
-import { configure, Mood } from "benji-sdk";
+```ts
+import { initializeFromEnv } from "benji-sdk";
 
-configure({ apiKey: "your-api-key" });
-
-// Log your mood
-await Mood.moodCreate({
-  body: {
-    level: 4,  // 1-5 scale
-    notes: "Feeling great today!"
-  }
-});
-
-// Get mood logs
-const { data } = await Mood.moodList();
+initializeFromEnv();
 ```
 
-### Journal
+This reads:
 
-```typescript
-import { configure, Journal } from "benji-sdk";
+- `BENJI_API_KEY`
+- `BENJI_BASE_URL`
 
-configure({ apiKey: "your-api-key" });
+## Errors
 
-// Create a journal entry
-await Journal.journalCreate({
-  body: {
-    content: "Today was a productive day...",
-    title: "Daily Reflection"
-  }
-});
-```
+`wrapSdkCall()` converts generated client responses into thrown `BenjiApiError` instances for non-success cases:
 
-## Custom Base URL
+```ts
+import { Todos, wrapSdkCall } from "benji-sdk";
 
-For self-hosted instances or development:
-
-```typescript
-configure({
-  apiKey: "your-api-key",
-  baseUrl: "https://your-instance.com/api/rest"
-});
-```
-
-## TypeScript Support
-
-This SDK is written in TypeScript and provides full type definitions for all API endpoints, request bodies, and responses.
-
-```typescript
-import type { TodosListResponse, HabitsCreateData } from "benji-sdk";
-```
-
-## Error Handling
-
-```typescript
-import { Todos } from "benji-sdk";
-
-try {
-  const { data, error, response } = await Todos.todosGet({
-    body: { id: "invalid-id" }
-  });
-
-  if (error) {
-    console.error("API Error:", error.message);
-  }
-} catch (err) {
-  console.error("Network error:", err);
-}
+const todo = await wrapSdkCall(
+  Todos.todosGet({
+    body: { id: "todo_123" },
+  }),
+);
 ```
 
 ## License

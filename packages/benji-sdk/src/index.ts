@@ -41,4 +41,6 @@ export { client };
 // Error types and utilities
 export { BenjiError, BenjiConfigError, BenjiApiError } from "./errors.js";
 export { initializeFromEnv } from "./env.js";
+export { callSdkMethod, listSdkMethods } from "./methods.js";
+export type { SdkMethodDescriptor, SdkMethodOptions } from "./methods.js";
 export { wrapSdkCall } from "./wrapper.js";

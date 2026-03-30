@@ -19,11 +19,18 @@ export function getGlobalOptions(cmd: Command): {
   json: boolean;
   compact: boolean;
 } {
-  const opts = cmd.opts();
-  const result = {
-    json: opts.json ?? false,
-    compact: opts.compact ?? false,
-  };
+  let current: Command | null = cmd;
+  let json = false;
+  let compact = false;
+
+  while (current) {
+    const opts = current.opts();
+    json = json || opts.json === true;
+    compact = compact || opts.compact === true;
+    current = current.parent ?? null;
+  }
+
+  const result = { json, compact };
   currentJsonMode = result.json;
   return result;
 }
@@ -35,6 +42,26 @@ export function isJsonMode(): boolean {
 function extractId(obj: Record<string, unknown>): string | undefined {
   if ("id" in obj) return String(obj.id);
   return undefined;
+}
+
+function extractCompactValue(data: unknown): string | undefined {
+  if (data === null || data === undefined) {
+    return undefined;
+  }
+
+  if (typeof data !== "object") {
+    return String(data);
+  }
+
+  const obj = data as Record<string, unknown>;
+  for (const key of ["id", "fullName", "name", "title"]) {
+    const value = obj[key];
+    if (value !== null && value !== undefined && value !== "") {
+      return String(value);
+    }
+  }
+
+  return JSON.stringify(obj);
 }
 
 /** Print result to stdout with mode-appropriate formatting. */
@@ -49,13 +76,13 @@ export function outputResult(
 
   if (opts.compact) {
     if (Array.isArray(data)) {
-      const ids = data
-        .filter((item) => typeof item === "object" && item !== null && "id" in item)
-        .map((item) => String((item as Record<string, unknown>).id));
-      console.log(ids.join("\n"));
+      const values = data
+        .map(extractCompactValue)
+        .filter((value): value is string => Boolean(value));
+      console.log(values.join("\n"));
     } else if (typeof data === "object" && data !== null) {
       const id = extractId(data as Record<string, unknown>);
-      console.log(id ?? "");
+      console.log(id ?? extractCompactValue(data) ?? "");
     } else {
       console.log(String(data ?? ""));
     }

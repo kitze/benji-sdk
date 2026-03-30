@@ -24,8 +24,9 @@ async function fixImportsInFile(filePath) {
   for (const match of matches) {
     const [fullMatch, prefix, importPath, suffix] = match;
 
-    // Skip if already has a file extension
-    if (/\.[a-z0-9]+$/i.test(importPath)) continue;
+    // Only skip imports that already have a runtime-safe extension.
+    // Generated paths like "./sdk.gen" still need ".js" appended for Node ESM.
+    if (/\.(?:[cm]?js|json|node)$/i.test(importPath)) continue;
 
     // Check if it's a directory import
     const isDir = await isDirectory(filePath, importPath);

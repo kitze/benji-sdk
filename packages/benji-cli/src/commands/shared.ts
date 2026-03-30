@@ -39,6 +39,27 @@ export async function readStdin(): Promise<Record<string, unknown>> {
   }
 }
 
+export function parseJsonObject(
+  raw: string,
+  optionName: string,
+): Record<string, unknown> {
+  try {
+    const parsed = JSON.parse(raw);
+    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+      console.error(
+        `Error: --${optionName} must be a JSON object. Example: --${optionName} '{"body":{"screen":"today"}}'`
+      );
+      process.exit(1);
+    }
+    return parsed as Record<string, unknown>;
+  } catch {
+    console.error(
+      `Error: Invalid JSON for --${optionName}. Example: --${optionName} '{"body":{"screen":"today"}}'`
+    );
+    process.exit(1);
+  }
+}
+
 /**
  * Require --force on destructive commands. Exits code 1 with actionable error if missing.
  */
