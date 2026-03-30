@@ -1,0 +1,48 @@
+{
+  "name": "benji-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Benji API",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "benji-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "postbuild": "chmod +x dist/index.js",
+    "clean": "rm -rf dist",
+    "dev": "npx tsx src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.28.0",
+    "zod": "^3.25.0",
+    "benji-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  },
+  "license": "MIT",
+  "author": "Kitze",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitze/benji-sdk.git",
+    "directory": "packages/benji-mcp"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "private": true
+}
