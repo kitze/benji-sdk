@@ -65,6 +65,42 @@ export function registerTodoViewsCommand(program: Command): void {
     });
 
   cmd
+    .command("waiting")
+    .description("List todos marked as waiting")
+    .option("--task-type <type>", "Filter by task type (personal, work, both)")
+    .addHelpText("after", `\nExamples:\n  $ benji todo-views waiting\n  $ benji todo-views waiting --task-type work\n  $ benji todo-views waiting --json`)
+    .action(async (options, command) => {
+      ensureAuth();
+      const opts = getGlobalOptions(command);
+      try {
+        const result = await wrapSdkCall(
+          TodoViews.todoViewsWaiting({ body: { taskType: options.taskType } }),
+        );
+        outputResult(result, opts);
+      } catch (error) {
+        handleCommandError(error);
+      }
+    });
+
+  cmd
+    .command("blocked")
+    .description("List todos blocked by other todos")
+    .option("--task-type <type>", "Filter by task type (personal, work, both)")
+    .addHelpText("after", `\nExamples:\n  $ benji todo-views blocked\n  $ benji todo-views blocked --task-type personal\n  $ benji todo-views blocked --json`)
+    .action(async (options, command) => {
+      ensureAuth();
+      const opts = getGlobalOptions(command);
+      try {
+        const result = await wrapSdkCall(
+          TodoViews.todoViewsBlocked({ body: { taskType: options.taskType } }),
+        );
+        outputResult(result, opts);
+      } catch (error) {
+        handleCommandError(error);
+      }
+    });
+
+  cmd
     .command("shared")
     .description("Get sharing details for a todo list")
     .requiredOption("--list-id <id>", "Todo list ID")

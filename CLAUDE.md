@@ -4,7 +4,7 @@
 
 pnpm monorepo with three packages:
 - **benji-sdk** -- Auto-generated TypeScript SDK for the Benji API (personal life OS). Generated from an OpenAPI spec via `@hey-api/openapi-ts`.
-- **benji-mcp** -- MCP server exposing 19 resource domains (113 tools) over stdio transport.
+- **benji-mcp** -- MCP server exposing 19 resource domains (115 tools) over stdio transport.
 - **benji-cli** -- Commander.js CLI mirroring all 19 domains with `benji <resource> <action> [options]` structure.
 
 Both `benji-mcp` and `benji-cli` depend on `benji-sdk` via `workspace:*`.

@@ -2370,6 +2370,30 @@ export const methodMetadata = {
       }
     }
   },
+  "TodoViews.todoViewsWaiting": {
+    "operationId": "todoViews-waiting",
+    "summary": "List waiting todos",
+    "description": "List todos marked as waiting for the current user.",
+    "httpMethod": "POST",
+    "path": "/todo-views/waiting",
+    "exampleInput": {
+      "body": {
+        "taskType": "personal"
+      }
+    }
+  },
+  "TodoViews.todoViewsBlocked": {
+    "operationId": "todoViews-blocked",
+    "summary": "List blocked todos",
+    "description": "List todos that are blocked by other todos (dependency chain).",
+    "httpMethod": "POST",
+    "path": "/todo-views/blocked",
+    "exampleInput": {
+      "body": {
+        "taskType": "personal"
+      }
+    }
+  },
   "ProjectSections.projectSectionsDelete": {
     "operationId": "projectSections-delete",
     "summary": "Delete project section",

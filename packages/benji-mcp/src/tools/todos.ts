@@ -86,6 +86,16 @@ export function registerTodoTools(server: McpServer): void {
         taskType: z.enum(["personal", "work", "both"]).optional(),
         showCompleted: z.boolean().optional(),
         onlyMandatory: z.boolean().optional(),
+        onlyWaiting: z
+          .boolean()
+          .optional()
+          .describe("When true, return only todos marked as waiting"),
+        onlyBlocked: z
+          .boolean()
+          .optional()
+          .describe(
+            "When true, return only todos blocked by other todos (dependency chain)",
+          ),
         timeOfDay: z
           .enum(["Any", "Auto", "Morning", "Afternoon", "Evening", "Night"])
           .optional(),
@@ -98,6 +108,8 @@ export function registerTodoTools(server: McpServer): void {
       taskType,
       showCompleted,
       onlyMandatory,
+      onlyWaiting,
+      onlyBlocked,
       timeOfDay,
     }) => {
       try {
@@ -105,6 +117,8 @@ export function registerTodoTools(server: McpServer): void {
         if (taskType !== undefined) filters.taskType = taskType;
         if (showCompleted !== undefined) filters.showCompleted = showCompleted;
         if (onlyMandatory !== undefined) filters.onlyMandatory = onlyMandatory;
+        if (onlyWaiting !== undefined) filters.onlyWaiting = onlyWaiting;
+        if (onlyBlocked !== undefined) filters.onlyBlocked = onlyBlocked;
         if (timeOfDay !== undefined) filters.timeOfDay = timeOfDay;
 
         const body: Record<string, unknown> = {};
