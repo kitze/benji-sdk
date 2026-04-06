@@ -4,7 +4,8 @@ import { TodoViews, wrapSdkCall } from "benji-sdk";
 import { toolResult, handleToolError } from "./util.js";
 
 /**
- * Register all 5 todo view MCP tools on the given server.
+ * Register all todo view MCP tools on the given server (done, paused, recurring,
+ * waiting, blocked, shared, trash).
  */
 export function registerTodoViewTools(server: McpServer): void {
   // -- list_done_todos ------------------------------------------------------------
@@ -78,6 +79,60 @@ export function registerTodoViewTools(server: McpServer): void {
       try {
         const result = await wrapSdkCall(
           TodoViews.todoViewsRecurring({ body: { taskType } }),
+        );
+        return toolResult(result);
+      } catch (error) {
+        return handleToolError(error);
+      }
+    },
+  );
+
+  // -- list_waiting_todos ---------------------------------------------------------
+  server.registerTool(
+    "list_waiting_todos",
+    {
+      description:
+        "List todos marked as waiting (waiting on someone or something). Optionally filter by task type.",
+      inputSchema: {
+        taskType: z
+          .enum(["personal", "work", "both"])
+          .optional()
+          .describe(
+            "Filter by task type: 'personal', 'work', or 'both'. Defaults to all if omitted.",
+          ),
+      },
+    },
+    async ({ taskType }) => {
+      try {
+        const result = await wrapSdkCall(
+          TodoViews.todoViewsWaiting({ body: { taskType } }),
+        );
+        return toolResult(result);
+      } catch (error) {
+        return handleToolError(error);
+      }
+    },
+  );
+
+  // -- list_blocked_todos ---------------------------------------------------------
+  server.registerTool(
+    "list_blocked_todos",
+    {
+      description:
+        "List todos that are blocked by other todos (dependency chain). Optionally filter by task type.",
+      inputSchema: {
+        taskType: z
+          .enum(["personal", "work", "both"])
+          .optional()
+          .describe(
+            "Filter by task type: 'personal', 'work', or 'both'. Defaults to all if omitted.",
+          ),
+      },
+    },
+    async ({ taskType }) => {
+      try {
+        const result = await wrapSdkCall(
+          TodoViews.todoViewsBlocked({ body: { taskType } }),
         );
         return toolResult(result);
       } catch (error) {

@@ -4435,6 +4435,8 @@ export type TodosListData = {
             showCompleted?: boolean;
             onlyMandatory?: boolean;
             timeOfDay?: 'Any' | 'Auto' | 'Morning' | 'Afternoon' | 'Evening' | 'Night';
+            onlyWaiting?: boolean;
+            onlyBlocked?: boolean;
         };
     };
     path?: never;
@@ -4611,6 +4613,10 @@ export type TodosListResponses = {
                     }> | undefined;
                 };
             } | null;
+            blockedBy?: Array<{
+                id: string;
+                title: string;
+            }>;
             [key: string]: unknown | string | boolean | string | null | string | null | string | null | string | null | string | null | string | null | string | null | string | null | boolean | null | number | null | string | null | string | null | string | null | boolean | null | boolean | null | boolean | null | boolean | null | string | null | string | null | string | null | number | null | string | null | string | null | string | null | {
                 id: string;
                 name: string;
@@ -4717,7 +4723,10 @@ export type TodosListResponses = {
                         [key: string]: unknown | string | string | null | number | null | boolean | undefined;
                     }> | undefined;
                 };
-            } | null | undefined;
+            } | null | Array<{
+                id: string;
+                title: string;
+            }> | undefined;
         }>;
     } | {
         separated: true;
@@ -4863,6 +4872,10 @@ export type TodosListResponses = {
                     }> | undefined;
                 };
             } | null;
+            blockedBy?: Array<{
+                id: string;
+                title: string;
+            }>;
             [key: string]: unknown | string | boolean | string | null | string | null | string | null | string | null | string | null | string | null | string | null | string | null | boolean | null | number | null | string | null | string | null | string | null | boolean | null | boolean | null | boolean | null | boolean | null | string | null | string | null | string | null | number | null | string | null | string | null | string | null | {
                 id: string;
                 name: string;
@@ -4969,7 +4982,10 @@ export type TodosListResponses = {
                         [key: string]: unknown | string | string | null | number | null | boolean | undefined;
                     }> | undefined;
                 };
-            } | null | undefined;
+            } | null | Array<{
+                id: string;
+                title: string;
+            }> | undefined;
         }>;
         dueOverdue: Array<{
             id: string;
@@ -5113,6 +5129,10 @@ export type TodosListResponses = {
                     }> | undefined;
                 };
             } | null;
+            blockedBy?: Array<{
+                id: string;
+                title: string;
+            }>;
             [key: string]: unknown | string | boolean | string | null | string | null | string | null | string | null | string | null | string | null | string | null | string | null | boolean | null | number | null | string | null | string | null | string | null | boolean | null | boolean | null | boolean | null | boolean | null | string | null | string | null | string | null | number | null | string | null | string | null | string | null | {
                 id: string;
                 name: string;
@@ -5219,7 +5239,10 @@ export type TodosListResponses = {
                         [key: string]: unknown | string | string | null | number | null | boolean | undefined;
                     }> | undefined;
                 };
-            } | null | undefined;
+            } | null | Array<{
+                id: string;
+                title: string;
+            }> | undefined;
         }>;
     };
 };
@@ -19640,3 +19663,85 @@ export type DashboardsCreateResponses = {
 };
 
 export type DashboardsCreateResponse = DashboardsCreateResponses[keyof DashboardsCreateResponses];
+
+export type TodoViewsWaitingData = {
+    body?: {
+        taskType?: 'personal' | 'work' | 'both';
+    };
+    path?: never;
+    query?: never;
+    url: '/todo-views/waiting';
+};
+
+export type TodoViewsWaitingErrors = {
+    /**
+     * Invalid input data
+     */
+    400: ErrorBadRequest;
+    /**
+     * Authorization not provided
+     */
+    401: ErrorUnauthorized;
+    /**
+     * Insufficient access
+     */
+    403: ErrorForbidden;
+    /**
+     * Internal server error
+     */
+    500: ErrorInternalServerError;
+};
+
+export type TodoViewsWaitingError = TodoViewsWaitingErrors[keyof TodoViewsWaitingErrors];
+
+export type TodoViewsWaitingResponses = {
+    /**
+     * Successful response
+     */
+    200: Array<{
+        [key: string]: unknown;
+    }>;
+};
+
+export type TodoViewsWaitingResponse = TodoViewsWaitingResponses[keyof TodoViewsWaitingResponses];
+
+export type TodoViewsBlockedData = {
+    body?: {
+        taskType?: 'personal' | 'work' | 'both';
+    };
+    path?: never;
+    query?: never;
+    url: '/todo-views/blocked';
+};
+
+export type TodoViewsBlockedErrors = {
+    /**
+     * Invalid input data
+     */
+    400: ErrorBadRequest;
+    /**
+     * Authorization not provided
+     */
+    401: ErrorUnauthorized;
+    /**
+     * Insufficient access
+     */
+    403: ErrorForbidden;
+    /**
+     * Internal server error
+     */
+    500: ErrorInternalServerError;
+};
+
+export type TodoViewsBlockedError = TodoViewsBlockedErrors[keyof TodoViewsBlockedErrors];
+
+export type TodoViewsBlockedResponses = {
+    /**
+     * Successful response
+     */
+    200: Array<{
+        [key: string]: unknown;
+    }>;
+};
+
+export type TodoViewsBlockedResponse = TodoViewsBlockedResponses[keyof TodoViewsBlockedResponses];
