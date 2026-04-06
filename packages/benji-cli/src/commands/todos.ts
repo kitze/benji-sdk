@@ -17,22 +17,34 @@ export function registerTodosCommand(program: Command): void {
     .option("--date <date>", "Filter by date (YYYY-MM-DD)")
     .option("--search <query>", "Search todos by text")
     .option("--show-completed", "Include completed todos")
+    .option("--no-show-completed", "Exclude completed todos")
     .option("--task-type <type>", "Filter by task type (personal, work, both)")
     .option("--only-mandatory", "Show only mandatory todos")
+    .option("--no-only-mandatory", "Do not filter to mandatory todos only")
     .option("--only-waiting", "Show only todos marked as waiting")
+    .option("--no-only-waiting", "Do not filter to waiting todos only")
     .option("--only-blocked", "Show only todos blocked by other todos")
+    .option("--no-only-blocked", "Do not filter to blocked todos only")
     .option("--time-of-day <time>", "Filter by time of day (Any, Auto, Morning, Afternoon, Evening, Night)")
-    .addHelpText("after", `\nExamples:\n  $ benji todos list\n  $ benji todos list --screen today\n  $ benji todos list --search "groceries" --json\n  $ benji todos list --show-completed --task-type personal\n  $ benji todos list --only-mandatory --time-of-day Morning\n  $ benji todos list --only-waiting\n  $ benji todos list --only-blocked\n  $ benji todos list --compact`)
+    .addHelpText("after", `\nExamples:\n  $ benji todos list\n  $ benji todos list --screen today\n  $ benji todos list --search "groceries" --json\n  $ benji todos list --show-completed --task-type personal\n  $ benji todos list --no-show-completed\n  $ benji todos list --only-mandatory --time-of-day Morning\n  $ benji todos list --only-waiting\n  $ benji todos list --no-only-blocked\n  $ benji todos list --compact`)
     .action(async (options, command) => {
       ensureAuth();
       const opts = getGlobalOptions(command);
       try {
         const filters: Record<string, unknown> = {};
-        if (options.showCompleted) filters.showCompleted = true;
+        if (command.getOptionValueSource("showCompleted") === "cli") {
+          filters.showCompleted = options.showCompleted;
+        }
         if (options.taskType !== undefined) filters.taskType = options.taskType;
-        if (options.onlyMandatory) filters.onlyMandatory = true;
-        if (options.onlyWaiting) filters.onlyWaiting = true;
-        if (options.onlyBlocked) filters.onlyBlocked = true;
+        if (command.getOptionValueSource("onlyMandatory") === "cli") {
+          filters.onlyMandatory = options.onlyMandatory;
+        }
+        if (command.getOptionValueSource("onlyWaiting") === "cli") {
+          filters.onlyWaiting = options.onlyWaiting;
+        }
+        if (command.getOptionValueSource("onlyBlocked") === "cli") {
+          filters.onlyBlocked = options.onlyBlocked;
+        }
         if (options.timeOfDay !== undefined) filters.timeOfDay = options.timeOfDay;
 
         const body: Record<string, unknown> = {};

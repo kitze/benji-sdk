@@ -4872,6 +4872,10 @@ export type TodosListResponses = {
                     }> | undefined;
                 };
             } | null;
+            blockedBy?: Array<{
+                id: string;
+                title: string;
+            }>;
             [key: string]: unknown | string | boolean | string | null | string | null | string | null | string | null | string | null | string | null | string | null | string | null | boolean | null | number | null | string | null | string | null | string | null | boolean | null | boolean | null | boolean | null | boolean | null | string | null | string | null | string | null | number | null | string | null | string | null | string | null | {
                 id: string;
                 name: string;
@@ -4978,7 +4982,10 @@ export type TodosListResponses = {
                         [key: string]: unknown | string | string | null | number | null | boolean | undefined;
                     }> | undefined;
                 };
-            } | null | undefined;
+            } | null | Array<{
+                id: string;
+                title: string;
+            }> | undefined;
         }>;
         dueOverdue: Array<{
             id: string;
@@ -5122,6 +5129,10 @@ export type TodosListResponses = {
                     }> | undefined;
                 };
             } | null;
+            blockedBy?: Array<{
+                id: string;
+                title: string;
+            }>;
             [key: string]: unknown | string | boolean | string | null | string | null | string | null | string | null | string | null | string | null | string | null | string | null | boolean | null | number | null | string | null | string | null | string | null | boolean | null | boolean | null | boolean | null | boolean | null | string | null | string | null | string | null | number | null | string | null | string | null | string | null | {
                 id: string;
                 name: string;
@@ -5228,7 +5239,10 @@ export type TodosListResponses = {
                         [key: string]: unknown | string | string | null | number | null | boolean | undefined;
                     }> | undefined;
                 };
-            } | null | undefined;
+            } | null | Array<{
+                id: string;
+                title: string;
+            }> | undefined;
         }>;
     };
 };
