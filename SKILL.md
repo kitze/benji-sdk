@@ -38,4 +38,4 @@ Use read/list/get commands first when you are not sure what data exists. Require
 
 ## MCP Boundary
 
-This public SDK repo should be SDK + CLI + skill. MCP belongs in the Benji app codebase and should be hosted by the app at `/mcp`, layered over the app API, not shipped as part of the public SDK package.
+This public SDK repo should be SDK + CLI + skill. MCP belongs in the Benji app codebase and should be hosted by the app at `/api/mcp`, layered over the app API, not shipped as part of the public SDK package.
