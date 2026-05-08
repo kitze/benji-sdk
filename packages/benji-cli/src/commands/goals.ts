@@ -5,7 +5,7 @@ import { getGlobalOptions, outputResult } from "../output.js";
 import { handleCommandError } from "../error-handler.js";
 import { readStdin, requireForce, toTzDate } from "./shared.js";
 
-// TODO(future-story): Missing MCP subcommands to add:
+// TODO(future-story): Missing curated CLI subcommands to add:
 // - delete-many (goalsDeleteMany) — bulk delete goals
 // - public-list (goalsPublicList) — list public goals by username
 export function registerGoalsCommand(program: Command): void {

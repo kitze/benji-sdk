@@ -5,7 +5,7 @@ import { getGlobalOptions, outputResult } from "../output.js";
 import { handleCommandError } from "../error-handler.js";
 import { readStdin, requireForce, toTzDate, parseDate } from "./shared.js";
 
-// TODO(future-story): Missing MCP subcommands to add:
+// TODO(future-story): Missing curated CLI subcommands to add:
 // - delete-many (journalEntriesDeleteMany) — bulk delete journal entries
 // - stats (journalEntriesStats) — get journal statistics (entries, words, streak)
 export function registerJournalCommand(program: Command): void {

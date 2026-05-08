@@ -17,7 +17,6 @@ export interface SdkMethodDescriptor {
   fullName: string;
   resource: string;
   action: string;
-  toolName: string;
   operationId?: string;
   summary?: string;
   description?: string;
@@ -50,10 +49,6 @@ function toKebabCase(value: string): string {
     .replace(/([A-Z]+)([A-Z][a-z])/g, "$1-$2")
     .replace(/[_\s]+/g, "-")
     .toLowerCase();
-}
-
-function toSnakeCase(value: string): string {
-  return toKebabCase(value).replace(/-/g, "_");
 }
 
 function getCommonPrefix(values: string[]): string {
@@ -136,7 +131,6 @@ function buildRegistry(): {
       ...descriptor,
       resource,
       action,
-      toolName: `${toSnakeCase(resource)}_${toSnakeCase(action)}`,
       ...(generatedMethodMetadata[descriptor.fullName] ?? {}),
     };
   });

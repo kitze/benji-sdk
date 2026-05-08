@@ -5,7 +5,7 @@ import { getGlobalOptions, outputResult } from "../output.js";
 import { handleCommandError } from "../error-handler.js";
 import { readStdin, requireForce, parseNumber, toTzDate, toYmdDate } from "./shared.js";
 
-// TODO(future-story): Missing MCP subcommands to add:
+// TODO(future-story): Missing curated CLI subcommands to add:
 // - delete-many (weightLogsDeleteMany) — bulk delete weight logs
 // - update-unit (weightLogsUpdateWeightUnit) — change weight unit preference (kg/lbs)
 // - weight-goal (weightLogsGetCurrentActiveGoal) — get current active weight goal

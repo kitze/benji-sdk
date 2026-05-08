@@ -5,7 +5,7 @@ import { getGlobalOptions, outputResult } from "../output.js";
 import { handleCommandError } from "../error-handler.js";
 import { readStdin, requireForce, parseNumber, toTzDate, toYmdDate } from "./shared.js";
 
-// TODO(future-story): Missing MCP subcommands to add:
+// TODO(future-story): Missing curated CLI subcommands to add:
 // - delete-many (painEventsDeleteMany) — bulk delete pain events
 // - recent-body-parts (painEventsRecentBodyParts) — list recently used body parts
 export function registerPainEventsCommand(program: Command): void {

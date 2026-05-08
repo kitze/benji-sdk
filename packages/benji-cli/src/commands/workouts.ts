@@ -5,7 +5,7 @@ import { getGlobalOptions, outputResult } from "../output.js";
 import { handleCommandError } from "../error-handler.js";
 import { readStdin, requireForce } from "./shared.js";
 
-// TODO(future-story): Missing MCP subcommands to add:
+// TODO(future-story): Missing curated CLI subcommands to add:
 // - get-with-details (workoutsGetWithDetails) — get workout with exercises and sets
 export function registerWorkoutsCommand(program: Command): void {
   const cmd = program

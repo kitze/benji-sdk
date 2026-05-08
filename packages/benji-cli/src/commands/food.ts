@@ -5,7 +5,7 @@ import { getGlobalOptions, outputResult } from "../output.js";
 import { handleCommandError } from "../error-handler.js";
 import { readStdin, requireForce, parseNumber, toTzDate, toYmdDate } from "./shared.js";
 
-// TODO(future-story): Missing MCP subcommands to add:
+// TODO(future-story): Missing curated CLI subcommands to add:
 // - delete-many (foodLogsDeleteMany) — bulk delete food logs
 // - calories-stats (foodLogsGetCaloriesStats) — get calorie stats for a date
 // - protein-stats (foodLogsGetProteinStats) — get protein stats for a date
