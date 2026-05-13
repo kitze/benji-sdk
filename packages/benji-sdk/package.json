@@ -48,6 +48,6 @@
   "homepage": "https://github.com/kitze/benji-sdk#readme",
   "devDependencies": {
     "@hey-api/openapi-ts": "0.90.0",
-    "typescript": "^5.5.0"
+    "typescript": "^6.0.3"
   }
 }
